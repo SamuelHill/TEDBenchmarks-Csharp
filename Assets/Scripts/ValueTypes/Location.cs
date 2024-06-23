@@ -7,7 +7,7 @@ namespace Scripts.ValueTypes {
     /// <summary>
     /// Location reference - wraps name string for an individual location.
     /// </summary>
-    public class Location : IComparable<Location>, IEquatable<Location> {
+    public partial class Location : IComparable<Location>, IEquatable<Location> {
         /// <summary>Name of this location.</summary>
         [SerializeOnSave] private readonly string _name;
 

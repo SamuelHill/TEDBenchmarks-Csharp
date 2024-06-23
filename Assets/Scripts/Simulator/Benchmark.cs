@@ -15,13 +15,10 @@ using static TED.Language;
 
 namespace Scripts.Simulator {
     // "Utils" (Utilities and Time)
-    using static BindingList;    // Parameters for name generation
     using static Clock;          // All current time functions
-    using TimePoint = TimePoint; // (clock hides TimePoint with a method, this fixes that)
     using static CsvManager;     // DeclareParsers
     using static SaveManager;    // Save and Load simulation
     using static File;           // Performance CSV output
-    using static Generators;     // Name generation
     using static Randomize;      // Seed and RandomElement
     // GUI/graphics
     using static Color;
@@ -29,7 +26,6 @@ namespace Scripts.Simulator {
     using static SimulationGraphs; // Visualize___ functions
     // The following offload static components of the TED code...
     using static StaticTables; // non dynamic tables - classic datalog EDB
-    using static Variables;    // named variables
 
     public static class Benchmark {
         private const int Seed = 349571286;
@@ -59,11 +55,11 @@ namespace Scripts.Simulator {
             Simulation.Problems.Colorize(_ => red);
             Simulation.BeginPredicates();
             InitStaticTables();
-            // ********************************************* BEGIN TABLES *********************************************
+            // ************************************************* BEGIN ************************************************
 
-            // FILL IN WITH TABLES
+            // SIM
 
-            // ********************************************** END TABLES **********************************************
+            // ************************************************** END *************************************************
             // ReSharper restore InconsistentNaming
             Simulation.EndPredicates();
             DataflowVisualizer.MakeGraph(Simulation, "Visualizations/Dataflow.dot");
