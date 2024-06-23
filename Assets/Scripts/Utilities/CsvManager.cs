@@ -4,7 +4,6 @@ using TED.Utilities;
 using Scripts.Time;
 using Scripts.ValueTypes;
 using UnityEngine;
-using Scripts.Simulog;
 
 namespace Scripts.Utilities {
     using static ColorUtility;
@@ -27,7 +26,6 @@ namespace Scripts.Utilities {
         public static void DeclareParsers() {
             DeclareParser(typeof(Person), ParsePerson);
             DeclareParser(typeof(ValueTuple<Person, Person>), ParsePersonTuple);
-            DeclareParser(typeof(SymmetricTuple<Person>), ParseSymmetricPersonTuple);
             DeclareParser(typeof(TimePoint), ParseTimePoint);
             DeclareParser(typeof(Vector2Int), ParseVector2Int);
             DeclareParser(typeof(Color), ParseColor);
@@ -37,8 +35,6 @@ namespace Scripts.Utilities {
 
         // TODO: Automatically generate SymmetricTuples and ValueTuples parse functions for any potential pairings OR
         // TODO: Generate these as they are used (parse the program for all column types and declare parsers as needed)
-        private static object ParseSymmetricPersonTuple(string symmetricPersonTupleString) =>
-            SymmetricTuple<Person>.FromString(symmetricPersonTupleString, ParsePerson);
         private static object ParsePersonTuple(string personTupleString) {
             var temp = CommaSeparated(personTupleString, ParsePerson);
             return temp is { Length: 2 } ? new ValueTuple<Person, Person>(temp[0], temp[1]) :
@@ -61,18 +57,12 @@ namespace Scripts.Utilities {
         public static void DeclareWriters() {
             DeclareWriter(typeof(Person), WritePerson);
             DeclareWriter(typeof(ValueTuple<Person, Person>), WritePersonTuple);
-            DeclareWriter(typeof(SymmetricTuple<Person>), WriteSymmetricPersonTuple);
             DeclareWriter(typeof(Vector2Int), WriteVector2Int);
             DeclareWriter(typeof(Color), WriteColor);
         }
 
         private static string WritePerson(object personObject) => SerializedId(personObject);
 
-        // TODO: Generate the write functions (similar to the parse functions todo)
-        private static string WriteSymmetricPersonTuple(object symmetricPersonTupleObject) {
-            var pair = (SymmetricTuple<Person>)symmetricPersonTupleObject;
-            return QuoteString($"{WritePerson(pair.Item1)}, {WritePerson(pair.Item2)}");
-        }
         private static string WritePersonTuple(object personTupleObject) {
             var pair = (ValueTuple<Person, Person>)personTupleObject;
             return QuoteString($"{WritePerson(pair.Item1)}, {WritePerson(pair.Item2)}");

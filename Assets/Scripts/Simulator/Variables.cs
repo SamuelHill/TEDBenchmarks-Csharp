@@ -1,6 +1,5 @@
 ﻿using System;
 using TED;
-using Scripts.Simulog;
 using Scripts.Time;
 using Scripts.ValueTypes;
 using UnityEngine;

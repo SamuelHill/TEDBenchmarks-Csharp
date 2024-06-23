@@ -5,7 +5,6 @@ using TED;
 using TED.Interpreter;
 using TED.Tables;
 using TED.Utilities;
-using Scripts.Simulog;
 using Scripts.TextGenerator;
 using Scripts.Time;
 using Scripts.Unity;
@@ -31,8 +30,6 @@ namespace Scripts.Simulator {
     // The following offload static components of the TED code...
     using static StaticTables; // non dynamic tables - classic datalog EDB
     using static Variables;    // named variables
-    // TED Meta language hookup
-    using static SimuLang;
 
     public static class Benchmark {
         private const int Seed = 349571286;
