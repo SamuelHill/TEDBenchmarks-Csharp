@@ -10,6 +10,8 @@ namespace Scripts.ValueTypes {
 
         public static readonly List<Location> Everywhere = new List<Location>();
 
+        public static Location Random() => Scripts.Utilities.Randomize.RandomElement(Everywhere, Scripts.Utilities.Randomize.RngForInitialization);
+
         /// <summary>
         /// Make all the Location objects.
         /// </summary>
