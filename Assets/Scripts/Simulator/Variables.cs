@@ -9,8 +9,8 @@ namespace Scripts.Simulator {
     /// <remarks>Variables will be lowercase for style/identification purposes.</remarks>
     public static class Variables {
         // ReSharper disable InconsistentNaming
-
-        // FILL IN WITH VARIABLES
+        public static readonly Var<string> firstName = (Var<string>)"firstName";
+        public static readonly Var<string> lastName = (Var<string>)"lastName";
 
     }
 }
