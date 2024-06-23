@@ -2,11 +2,8 @@
 using System.Linq;
 using TED;
 using TED.Interpreter;
-using TED.Tables;
 using Scripts.Time;
-using Scripts.Utilities;
 using Scripts.ValueTypes;
-using Scripts.TextGenerator;
 using UnityEngine;
 using static TED.Language;
 
