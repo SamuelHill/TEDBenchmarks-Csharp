@@ -45,6 +45,9 @@ namespace Scripts.Simulator {
             WriteSaveData = writer => writer.Write(ClockTick.ToString());
         }
 
+        private static readonly List<Person> People = new();
+        private static readonly List<Location> Places = new();
+
         // ReSharper disable InconsistentNaming
         // Tables, despite being local or private variables, will be capitalized for style/identification purposes.
 
