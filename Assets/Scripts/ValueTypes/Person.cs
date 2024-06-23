@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Scripts.ValueTypes;
 using Scripts.Utilities;
 
 namespace Scripts.ValueTypes {

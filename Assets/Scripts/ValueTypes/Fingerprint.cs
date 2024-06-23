@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Random = TED.Utilities.Random;
 
-namespace Assets.Scripts.ValueTypes
+namespace Scripts.ValueTypes
 {
     public struct Fingerprint
     {
