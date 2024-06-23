@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.ValueTypes;
 using Scripts.Utilities;
 
 namespace Scripts.ValueTypes {
@@ -16,6 +17,11 @@ namespace Scripts.ValueTypes {
         public string LastName;
         /// <summary>First and last name of this person.</summary>
         public string FullName;
+
+        /// <summary>
+        /// Random bit-vector representing the person's personality
+        /// </summary>
+        public readonly Fingerprint Personality = Fingerprint.Random();
 
         private Person() {}
 

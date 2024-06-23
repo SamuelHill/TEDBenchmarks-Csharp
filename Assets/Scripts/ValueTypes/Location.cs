@@ -1,4 +1,5 @@
 using System;
+using Assets.Scripts.ValueTypes;
 using Scripts.Utilities;
 
 namespace Scripts.ValueTypes {
@@ -10,6 +11,11 @@ namespace Scripts.ValueTypes {
     public partial class Location : IComparable<Location>, IEquatable<Location> {
         /// <summary>Name of this location.</summary>
         [SerializeOnSave] private readonly string _name;
+
+        /// <summary>
+        /// Random bit vector representing what kinds of personalities this place appeals to.
+        /// </summary>
+        public readonly Fingerprint Personality = Fingerprint.Random();
 
         private Location() {}
         
