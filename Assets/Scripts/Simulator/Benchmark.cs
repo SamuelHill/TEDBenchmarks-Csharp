@@ -47,7 +47,6 @@ namespace Scripts.Simulator {
 
         // ReSharper disable InconsistentNaming
         // Tables, despite being local or private variables, will be capitalized for style/identification purposes.
-        
 
         public static void InitSimulator() {
             Simulation = new Simulation("Benchmark");
