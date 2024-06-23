@@ -7,7 +7,7 @@ namespace Scripts.ValueTypes {
     /// <summary>
     /// Person reference - wraps first and last name strings for an individual person.
     /// </summary>
-    public class Person : IComparable<Person>, IEquatable<Person> {
+    public partial class Person : IComparable<Person>, IEquatable<Person> {
         /// <summary>First name of this person.</summary>
         [SerializeOnSave] private readonly string _firstName;
         /// <summary>Maiden name of this person.</summary>
