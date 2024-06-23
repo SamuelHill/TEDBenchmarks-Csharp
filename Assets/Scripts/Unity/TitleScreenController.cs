@@ -21,7 +21,7 @@ namespace Scripts.Unity {
 
         public void StartBavardage() {
             UpdateSaveToLoad(LoadFromSave);
-            LoadScene("Bavardage");
+            LoadScene("Benchmark");
         }
     }
 }

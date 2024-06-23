@@ -12,7 +12,7 @@ namespace Scripts.Unity {
     using static GUIManager;
     using static Input;
     using static SaveManager;
-    using static Bavardage;
+    using static Benchmark;
 
     // ReSharper disable once UnusedMember.Global
     /// <summary>Handles running the simulation and interfacing with the GUI and Tile Managers.</summary>

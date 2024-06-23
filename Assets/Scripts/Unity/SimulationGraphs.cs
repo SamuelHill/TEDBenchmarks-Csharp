@@ -18,7 +18,7 @@ namespace Scripts.Unity {
     using static GraphVisualizer;
     using static GUIManager;
     using static Variables;
-    using static Bavardage;
+    using static Benchmark;
 
     public static class SimulationGraphs {
         //private static readonly Random Rng = MakeRng();

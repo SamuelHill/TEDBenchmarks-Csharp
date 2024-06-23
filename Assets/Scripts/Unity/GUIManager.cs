@@ -20,7 +20,7 @@ namespace Scripts.Unity {
     using static SaveManager;
     using static StaticTables; // used in PlaceColor
     using static StringProcessing;
-    using static Bavardage; // used for RuleExecutionTime and PlaceColor
+    using static Benchmark; // used for RuleExecutionTime and PlaceColor
     using static Texture2D;
 
     // ReSharper disable InconsistentNaming

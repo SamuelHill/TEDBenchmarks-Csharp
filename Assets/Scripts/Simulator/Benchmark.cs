@@ -34,12 +34,12 @@ namespace Scripts.Simulator {
     // TED Meta language hookup
     using static SimuLang;
 
-    public static class Bavardage {
+    public static class Benchmark {
         private const int Seed = 349571286;
         public static Simulation Simulation = null!;
         public static bool RecordingPerformance;
 
-        static Bavardage() {
+        static Benchmark() {
             DeclareParsers(); // Parsers used in the FromCsv calls in InitStaticTables
             DeclareWriters();
             Seed(Seed);
@@ -57,7 +57,7 @@ namespace Scripts.Simulator {
         
 
         public static void InitSimulator() {
-            Simulation = new Simulation("Bavardage");
+            Simulation = new Simulation("Benchmark");
             Simulation.Exceptions.Colorize(_ => red);
             Simulation.Problems.Colorize(_ => red);
             Simulation.BeginPredicates();
