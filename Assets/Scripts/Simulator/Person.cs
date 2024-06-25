@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.ValueTypes;
+using Scripts.ValueTypes;
 using Scripts.Utilities;
 
 namespace Scripts.ValueTypes
