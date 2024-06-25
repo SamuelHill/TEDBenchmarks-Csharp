@@ -96,9 +96,10 @@ namespace Scripts.ValueTypes
                     bestPerson = p;
                 }
             }
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (bestScore == float.MinValue) return;
             Other = bestPerson;
-            Outcome = Interactions.Interact(this, Other, Randomize.RngForInitialization);
+            Outcome = Interactions.Interact(this, Other, this[Other], Other![this], Randomize.RngForInitialization);
             this[Other] += Outcome.ActorDelta;
             Other[this] += Outcome.OtherDelta;
         }

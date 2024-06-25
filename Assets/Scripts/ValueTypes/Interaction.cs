@@ -21,9 +21,9 @@ namespace Scripts.ValueTypes
 
             public override string ToString() => $"{ActorDelta}, {OtherDelta}";
         }
-        public delegate Outcome Interaction(Person actor, Person other, Random rng);
+        public delegate Outcome Interaction(Person actor, Person other, float actorOther, float otherActor, Random rng);
 
-        static Outcome Chat(Person actor, Person other, Random rng)
+        static Outcome Chat(Person actor, Person other, float actorOther, float otherActor, Random rng)
         {
             // fill me in
             return new Outcome(0, 0);
@@ -31,7 +31,7 @@ namespace Scripts.ValueTypes
 
         public static readonly Interaction[] PossibleInteractions = { Chat };
 
-        public static Outcome Interact(Person actor, Person other, Random rng) =>
-            PossibleInteractions[rng.Next() % PossibleInteractions.Length](actor, other, rng);
+        public static Outcome Interact(Person actor, Person other, float actorOther, float otherActor, Random rng) =>
+            PossibleInteractions[rng.Next() % PossibleInteractions.Length](actor, other, actorOther, otherActor, rng);
     }
 }

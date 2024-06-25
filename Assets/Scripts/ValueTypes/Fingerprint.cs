@@ -7,7 +7,7 @@ using Random = TED.Utilities.Random;
 
 namespace Scripts.ValueTypes
 {
-    public struct Fingerprint
+    public readonly struct Fingerprint
     {
         static Fingerprint()
         {
@@ -16,28 +16,28 @@ namespace Scripts.ValueTypes
 
         private Fingerprint(uint bits)
         {
-            bitVector = bits;
+            _bitVector = bits;
         }
 
         public static Fingerprint Random() => new(RandomUint());
 
         public static Fingerprint Mood() => new(RandomMood());
 
-        private uint bitVector;
+        private readonly uint _bitVector;
 
         public float Affinity(Fingerprint other, Fingerprint mood)
         {
-            return BitCountToAffinity(PopCount(bitVector ^ other.bitVector ^ mood.bitVector));
+            return BitCountToAffinity(PopCount(_bitVector ^ other._bitVector ^ mood._bitVector));
         }
 
         public float Affinity(Fingerprint other)
         {
-            return BitCountToAffinity(PopCount(bitVector ^ other.bitVector));
+            return BitCountToAffinity(PopCount(_bitVector ^ other._bitVector));
         }
 
         private static float BitCountToAffinity(int count) => (count - 10) * (100f / 22);
 
-        private static System.Random Rng = TED.Utilities.Random.MakeRng();
+        private static readonly System.Random Rng = TED.Utilities.Random.MakeRng();
 
         private static uint RandomUint() => unchecked((uint)Rng.Next());
 
@@ -64,10 +64,10 @@ namespace Scripts.ValueTypes
         // Cribbed from our friend wikipedia
         static int PopCount(uint x)
         {
-            return (int)(wordbits[x & 0xFFFF] + wordbits[x >> 16]);
+            return (int)(Wordbits[x & 0xFFFF] + Wordbits[x >> 16]);
         }
 
-        static uint[] wordbits = new uint[65536]; /* bit counts of integers 0 through 65535, inclusive */
+        private static readonly uint[] Wordbits = new uint[65536]; /* bit counts of integers 0 through 65535, inclusive */
         static void InitPopCountArray()
         {
             uint i;
@@ -78,7 +78,7 @@ namespace Scripts.ValueTypes
                 x = i;
                 for (count=0; x != 0; count++) // borrowed from popcount64d() in wikipedia
                     x &= x - 1;
-                wordbits[i] = count;
+                Wordbits[i] = count;
             }
         }
         #endregion
