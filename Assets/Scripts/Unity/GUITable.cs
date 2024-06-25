@@ -105,7 +105,7 @@ namespace Scripts.Unity {
         #endregion
 
         #region Updating
-        private bool UpdateEveryTick => _predicate.IsDynamic && _predicate.IsIntensional;
+        private bool UpdateEveryTick => true;
         private bool UpdatePeriodically => _predicate.IsDynamic && _predicate.IsExtensional;
         // Used in conjunction with UpdatePeriodically to determine if an update is needed when the month changes
         private uint _previousPeriod;

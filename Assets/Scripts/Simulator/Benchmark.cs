@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TED;
 using TED.Interpreter;
 using TED.Tables;
@@ -26,11 +27,15 @@ namespace Scripts.Simulator {
     using static SimulationGraphs; // Visualize___ functions
     // The following offload static components of the TED code...
     using static StaticTables; // non dynamic tables - classic datalog EDB
+    using static Variables;
 
     public static class Benchmark {
         private const int Seed = 349571286;
         public static Simulation Simulation = null!;
         public static bool RecordingPerformance;
+        private static TablePredicate<Person, Location> _whereTheyAre;
+        private static TablePredicate<Person, Person, Interactions.Outcome> _interactedWith;
+        private static TablePredicate<Person, Person, float> _affinity;
 
         static Benchmark() {
             DeclareParsers(); // Parsers used in the FromCsv calls in InitStaticTables
@@ -49,48 +54,29 @@ namespace Scripts.Simulator {
         // Tables, despite being local or private variables, will be capitalized for style/identification purposes.
 
         public static void InitSimulator() {
+            Location.CreateAll(100);
+            Person.CreateAll(2000);
+            
             Simulation = new Simulation("Benchmark");
             Simulation.Exceptions.Colorize(_ => red);
             Simulation.Problems.Colorize(_ => red);
             Simulation.BeginPredicates();
-            InitStaticTables();
-            // ************************************************* BEGIN ************************************************
-
-            // SIM
-
-            // ************************************************** END *************************************************
-            // ReSharper restore InconsistentNaming
+            _whereTheyAre = Predicate("WhereTheyAre", person, location);
+            _interactedWith = Predicate("InteractedWith", person, other, outcome);
+            _affinity = Predicate("Affinity", person, other, affinity);
             Simulation.EndPredicates();
-            DataflowVisualizer.MakeGraph(Simulation, "Visualizations/Dataflow.dot");
-            UpdateFlowVisualizer.MakeGraph(Simulation, "Visualizations/UpdateFlow.dot");
-            Simulation.Update(); // optional, not necessary to call Update after EndPredicates
-            Simulation.CheckForProblems = true;
         }
 
         public static void UpdateSimulator() {
-#if ParallelUpdate
-            if (update == null) LoopSimulator();
-#else
             Tick();
-            if (RecordingPerformance) {
-                using var file = AppendText("PerformanceData.csv");
-                // TODO : replace 0 with population count
-                file.WriteLine($"{0}, {ClockTick - InitialClockTick}, {Simulation.RuleExecutionTime}");
-            }
-            Simulation.Update();
-            PopTableIfNewActivity(Simulation.Problems);
-            PopTableIfNewActivity(Simulation.Exceptions);
-#endif
+            Person.UpdateEveryone(ClockTick % 2 == 1);
+            
+            _whereTheyAre.Clear();
+            _whereTheyAre.AddRows(Person.Everyone.Select(p => (p, p.Location)));
+            _interactedWith.Clear();
+            _interactedWith.AddRows(Person.Everyone.Select(p => (p, p.Other, p.Outcome)));
+            _affinity.Clear();
+            _affinity.AddRows(Person.Everyone.SelectMany(p => p.Affinity.Select(pair => (p, pair.Key, pair.Value))));
         }
-
-#if ParallelUpdate
-        private static Task update;
-
-        static void LoopSimulator(){
-            Clock.Tick();
-            Simulation.Update();
-            update = Simulation.UpdateAsync().ContinueWith((_) => LoopSimulator());
-        }
-#endif
     }
 }

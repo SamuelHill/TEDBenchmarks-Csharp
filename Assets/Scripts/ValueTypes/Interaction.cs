@@ -18,6 +18,8 @@ namespace Scripts.ValueTypes
                 ActorDelta = actorDelta;
                 OtherDelta = otherDelta;
             }
+
+            public override string ToString() => $"{ActorDelta}, {OtherDelta}";
         }
         public delegate Outcome Interaction(Person actor, Person other, Random rng);
 

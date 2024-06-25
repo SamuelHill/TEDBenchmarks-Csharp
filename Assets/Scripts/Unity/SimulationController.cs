@@ -49,8 +49,7 @@ namespace Scripts.Unity {
             AvailableTables((PrettyNamesOnly ? 
                                  Simulation.Tables.Where(t => !t.Name.Contains("_")) :
                                  Simulation.Tables).Append(Simulation.Exceptions).Append(Simulation.Problems));
-            // TODO : Fill in these tables
-            ActiveTables(new[] { "", "", "", "" });
+            ActiveTables(new[] { "WhereTheyAre", "InteractedWith", "Affinity", "" });
             LoadFromSave(Simulation);
         }
 

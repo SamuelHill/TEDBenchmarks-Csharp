@@ -35,23 +35,25 @@ namespace Scripts.ValueTypes
             }
         }
 
-        private readonly Dictionary<Person, float> _affinity = new Dictionary<Person, float>();
+        public readonly Dictionary<Person, float> Affinity = new Dictionary<Person, float>();
 
         public float this[Person other]
         {
             get
             {
-                if (_affinity.TryGetValue(other, out var a))
+                if (Affinity.TryGetValue(other, out var a))
                     return a;
-                _affinity[other] = a = Personality.Affinity(other.Personality);
+                Affinity[other] = a = Personality.Affinity(other.Personality);
                 return a;
             }
-            set => _affinity[other] = value;
+            set => Affinity[other] = value;
         }
 
         public readonly Location WorkLocation = ValueTypes.Location.Random();
         public readonly bool DayShift = Randomize.Boolean(Randomize.RngForInitialization);
         public Fingerprint Mood;
+        public Interactions.Outcome Outcome;
+        public Person Other;
 
         public void UpdateMood() => Mood = Fingerprint.Mood();
 
@@ -84,7 +86,7 @@ namespace Scripts.ValueTypes
         {
             Person bestPerson = null;
             float bestScore = float.MinValue;
-            foreach (var p in Person.Everyone)
+            foreach (var p in Location.Occupants)
             {
                 var match = this[p];
                 // Should this be absolute value for some people?
@@ -94,20 +96,20 @@ namespace Scripts.ValueTypes
                     bestPerson = p;
                 }
             }
-
-            var other = bestPerson;
-            var outcome = Interactions.Interact(this, other, Utilities.Randomize.RngForInitialization);
-            this[other] += outcome.ActorDelta;
-            other[this] += outcome.OtherDelta;
+            if (bestScore == float.MinValue) return;
+            Other = bestPerson;
+            Outcome = Interactions.Interact(this, Other, Randomize.RngForInitialization);
+            this[Other] += Outcome.ActorDelta;
+            Other[this] += Outcome.OtherDelta;
         }
 
         public static void UpdateEveryone(bool isDaytime)
         {
-            foreach (var p in Person.Everyone)
+            foreach (var p in Everyone)
                 p.UpdateMood();
-            foreach (var p in Person.Everyone)
+            foreach (var p in Everyone)
                 p.UpdateLocation(isDaytime);
-            foreach (var p in Person.Everyone)
+            foreach (var p in Everyone)
                 p.Socialize();
         }
     }
