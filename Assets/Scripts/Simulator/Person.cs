@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Scripts.ValueTypes;
 using Scripts.Utilities;
 
 namespace Scripts.ValueTypes
