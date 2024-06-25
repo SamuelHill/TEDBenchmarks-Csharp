@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using TED;
@@ -36,6 +37,7 @@ namespace Scripts.Simulator {
         private static TablePredicate<Person, Location> _whereTheyAre;
         private static TablePredicate<Person, Person, Interactions.Outcome> _interactedWith;
         private static TablePredicate<Person, Person, float> _affinity;
+        private static readonly List<(uint, double)> PerformanceData = new();
 
         static Benchmark() {
             DeclareParsers(); // Parsers used in the FromCsv calls in InitStaticTables
@@ -67,9 +69,24 @@ namespace Scripts.Simulator {
             Simulation.EndPredicates();
         }
 
+        public static readonly Stopwatch Stopwatch = new Stopwatch();
+        
         public static void UpdateSimulator() {
             Tick();
+            Stopwatch.Reset();
+            Stopwatch.Start();
             Person.UpdateEveryone(ClockTick % 2 == 1);
+            Stopwatch.Stop();
+            
+            if (RecordingPerformance) {
+                PerformanceData.Add((ClockTick - InitialClockTick, Stopwatch.Elapsed.TotalMilliseconds));
+                if (ClockTick % 100 == 1) {
+                    using var file = AppendText("PerformanceData.csv");
+                    foreach ((var clock, var execution) in PerformanceData)
+                        file.WriteLine($"{clock}, {execution}");
+                    PerformanceData.Clear();
+                }
+            }
             
             _whereTheyAre.Clear();
             _whereTheyAre.AddRows(Person.Everyone.Select(p => (p, p.Location)));
