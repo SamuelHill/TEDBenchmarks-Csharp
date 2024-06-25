@@ -88,6 +88,7 @@ namespace Scripts.ValueTypes
             float bestScore = float.MinValue;
             foreach (var p in Location.Occupants)
             {
+                if (p == this) continue;
                 var match = this[p];
                 // Should this be absolute value for some people?
                 if (match > bestScore)
