@@ -70,6 +70,7 @@ namespace Scripts.Simulator {
         }
 
         public static readonly Stopwatch Stopwatch = new Stopwatch();
+        public static double UpdateTime;
         
         public static void UpdateSimulator() {
             Tick();
@@ -77,6 +78,7 @@ namespace Scripts.Simulator {
             Stopwatch.Start();
             Person.UpdateEveryone(ClockTick % 2 == 1);
             Stopwatch.Stop();
+            UpdateTime = (15*UpdateTime+Stopwatch.Elapsed.TotalMilliseconds)/16;
             
             if (RecordingPerformance) {
                 PerformanceData.Add((ClockTick - InitialClockTick, Stopwatch.Elapsed.TotalMilliseconds));
@@ -89,11 +91,11 @@ namespace Scripts.Simulator {
             }
             
             _whereTheyAre.Clear();
-            _whereTheyAre.AddRows(Person.Everyone.Select(p => (p, p.Location)));
+            //_whereTheyAre.AddRows(Person.Everyone.Select(p => (p, p.Location)));
             _interactedWith.Clear();
-            _interactedWith.AddRows(Person.Everyone.Select(p => (p, p.Other, p.Outcome)));
+            //_interactedWith.AddRows(Person.Everyone.Select(p => (p, p.Other, p.Outcome)));
             _affinity.Clear();
-            _affinity.AddRows(Person.Everyone.SelectMany(p => p.Affinity.Select(pair => (p, pair.Key, pair.Value))));
+            //_affinity.AddRows(Person.Everyone.SelectMany(p => p.Affinity.Select(pair => (p, pair.Key, pair.Value))));
         }
     }
 }
