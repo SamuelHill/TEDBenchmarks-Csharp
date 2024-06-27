@@ -43,8 +43,8 @@ namespace Scripts.ValueTypes
             {
                 if (Affinity.TryGetValue(other, out var a))
                     return a;
-                Affinity[other] = a = Personality.Affinity(other.Personality);
-                return a;
+                
+                return Personality.Affinity(other.Personality);
             }
             set => Affinity[other] = value;
         }
@@ -59,7 +59,7 @@ namespace Scripts.ValueTypes
 
         public void UpdateLocation(bool isDaytime)
         {
-            if (isDaytime ^ DayShift)
+            if (isDaytime)
             {
                 // We're off work
                 Location bestPlace = null!;
