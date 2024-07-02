@@ -80,22 +80,28 @@ namespace Scripts.Simulator {
             Stopwatch.Stop();
             UpdateTime = (15*UpdateTime+Stopwatch.Elapsed.TotalMilliseconds)/16;
             
-            if (RecordingPerformance) {
-                PerformanceData.Add((ClockTick - InitialClockTick, Stopwatch.Elapsed.TotalMilliseconds));
-                if (ClockTick % 100 == 1) {
-                    using var file = AppendText("PerformanceData.csv");
-                    foreach ((var clock, var execution) in PerformanceData)
-                        file.WriteLine($"{clock}, {execution}");
-                    PerformanceData.Clear();
-                }
-            }
-            
             _whereTheyAre.Clear();
             //_whereTheyAre.AddRows(Person.Everyone.Select(p => (p, p.Location)));
             _interactedWith.Clear();
             //_interactedWith.AddRows(Person.Everyone.Select(p => (p, p.Other, p.Outcome)));
             _affinity.Clear();
             //_affinity.AddRows(Person.Everyone.SelectMany(p => p.Affinity.Select(pair => (p, pair.Key, pair.Value))));
+            
+            if (!RecordingPerformance) return;
+            switch (ClockTick) {
+                case 2000: {
+                    foreach (var person in Person.Everyone) person.Affinity.Clear();
+                    return;
+                }
+                case < 3000: return;
+            }
+            PerformanceData.Add((ClockTick, Stopwatch.Elapsed.TotalMilliseconds));
+            if (ClockTick == 4000) {
+                using var file = AppendText("PerformanceData.csv");
+                foreach ((var clock, var execution) in PerformanceData) file.WriteLine($"{clock}, {execution}");
+                PerformanceData.Clear();
+                RecordingPerformance = false;
+            }
         }
     }
 }
